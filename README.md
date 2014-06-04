@@ -6,7 +6,7 @@ Apple凌晨时在WWDC发布了Swift编程语言，语法简洁我很喜欢，市
 我会抽时间坚持原版翻译完，时间有限，不正之处请大家多多指教。<br>
 <br>
 <br>
-这本书全称[《The Swift Programming Language》](https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/),袁术章节枝干如下：<br>
+这本书全称[《The Swift Programming Language》](https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/),全书章节枝干如下（翻译完的章节已加上路径）：<br>
 <br>
 * Welcome to Swift [《欢迎来到Swift世界》]()<br>
   * About Swift [《关于Swift》]()<br>
