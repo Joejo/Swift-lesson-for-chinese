@@ -8,9 +8,9 @@ Apple凌晨时在WWDC发布了Swift编程语言，语法简洁我很喜欢，市
 <br>
 这本书全称[《The Swift Programming Language》](https://developer.apple.com/library/prerelease/ios/documentation/Swift/Conceptual/Swift_Programming_Language/),全书章节枝干如下（翻译完的章节已加上路径）：<br>
 <br>
-* Welcome to Swift [《欢迎来到Swift世界》]()<br>
-  * About Swift [《关于Swift》]()<br>
-  * A Swift Tour [《Swift简介》]()<br>
+* Welcome to Swift 《欢迎来到Swift世界》<br>
+  * About Swift [《关于Swift》](https://github.com/Joejo/Swift-lesson-for-chinese/blob/master/WelcomeToSwift.md)<br>
+  * A Swift Tour [《Swift简介》](https://github.com/Joejo/Swift-lesson-for-chinese/blob/master/ASwiftTour.md)<br>
 * Language Guide Swift语言指南<br>
   * The Basics 基础部分<br>
   * Basic Operators<br>
