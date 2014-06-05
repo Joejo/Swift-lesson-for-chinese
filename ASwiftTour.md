@@ -474,6 +474,117 @@ Swift使用func关键字来声明函数，函数通过函数名加小括号内�
 ```
 
 
+###Enumerations 枚举
+
+ 
+
+使用 enum 来创建一个枚举。跟Classes(类)和其他类型的命名方式一样，枚举也可以有Method(方法)。
+```
+ 1 enum Rank: Int {
+ 2     case Ace = 1
+ 3     case Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten
+ 4     case Jack, Queen, King
+ 5     func simpleDescription() -> String {
+ 6         switch self {
+ 7         case .Ace:
+ 8             return "ace"
+ 9         case .Jack:
+10             return "jack"
+11         case .Queen:
+12             return "queen"
+13         case .King:
+14             return "king"
+15         default:
+16             return String(self.toRaw())
+17         }
+18     }
+19 }
+20 let ace = Rank.Ace
+21 let aceRawValue = ace.toRaw()
+```
+    练习：
+    创建一个函数，通过原始值的类比来比较两个rank的值。
+
+在上例中，原始值的类型是 Int ，所以你可以只指定第一个原始值就可以了，因为后面的原始值都是按照顺序赋值的。你还也可以使用字符串或浮点数作为枚举的原始值。
+
+使用toRaw和fromRaw函数可以实现原始值和枚举值间的转换：
+```
+1 if let convertedRank = Rank.fromRaw(3) {
+2     let threeDescription = convertedRank.simpleDescription()
+3 }
+```
+枚举出来的值就是实际值，而不是其他方式写的原始值。（这句话的意思应该就是说枚举值和原始值没有必然的关联性）为了防止枚举无意义的原始值，你不需要特意提供一个原始值：
+```
+ 1 enum Suit {
+ 2     case Spades, Hearts, Diamonds, Clubs
+ 3     func simpleDescription() -> String {
+ 4         switch self {
+ 5         case .Spades:
+ 6             return "spades"
+ 7         case .Hearts:
+ 8             return "hearts"
+ 9         case .Diamonds:
+10             return "diamonds"
+11         case .Clubs:
+12             return "clubs"
+13         }
+14     }
+15 }
+16 let hearts = Suit.Hearts
+17 let heartsDescription = hearts.simpleDescription()
+```
+    练习：
+    给枚举Suit创建一个名为color的方法，让Spades和Clubs返回“black”，让Hearts和Diamonds返回“red”。
+
+请注意上例中引用Hearts成员的两种方式：当给常量Hearts赋值时，Suit.Hearts是全名引用，因为此时的常量Hearts没有一个明确的类型。而在switch内部，枚举通过缩略形式：.Hearts来引用，因为 self 的值对于枚举成员是已知的。当值的类型已知时，你可以随时使用缩略形式(去引用)。
+
+ 
+
+###Structures 结构
+
+ 
+
+使用struct关键字创建来创建结构。结构体支持类（Classes）的许多行为：如，方法（methods）和构造器(initializers)。结构体与类最重要的区别是，在代码中，结构体通过拷贝（copy）来实现值的传递，而类则是通过引用（reference）：
+```
+1 struct Card {
+2     var rank: Rank
+3     var suit: Suit
+4     func simpleDescription() -> String {
+5         return "The \(rank.simpleDescription()) of \(suit.simpleDescription())"
+6     }
+7 }
+8 let threeOfSpades = Card(rank: .Three, suit: .Spades)
+9 let threeOfSpadesDescription = threeOfSpades.simpleDescription()
+```
+    练习：
+    添加一个Card方法来创建一副纸牌，每一张牌都含有一个Rank和Suit的组合。
+
+一个枚举成员的实例可以拥有实例的值。相同枚举成员的实例可以有不同的值。你在创建实例时可以给它指定一个值。指定值和原始值的区别在于：枚举的原始值与所有实例相同，原始值是你在定义枚举时提供的。
+
+例如：有一个场景，需要你从服务器中请求太阳升起和降落的时间，服务器可以响应给你相应的信息，也能给你返回错误的信息：
+```
+ 1 enum ServerResponse {
+ 2     case Result(String, String)
+ 3     case Error(String)
+ 4 }
+ 5  
+ 6 let success = ServerResponse.Result("6:00 am", "8:09 pm")
+ 7 let failure = ServerResponse.Error("Out of cheese.")
+ 8  
+ 9 switch success {
+10 case let .Result(sunrise, sunset):
+11     let serverResponse = "Sunrise is at \(sunrise) and sunset is at \(sunset)."
+12 case let .Error(error)://请求错误时返回的信息--Joe.Huang
+13     let serverResponse = "Failure...  \(error)"
+14 }
+```
+    练习：
+    在switch语句里给ServerResponse添加第三种情况（case）。
+
+请注意：（上例中）ServerResponse所返回的日出与日落时间是switch中所匹配的情况（case）。
+
+
+
 
 
 
