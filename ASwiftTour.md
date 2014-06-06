@@ -583,6 +583,110 @@ Swift使用func关键字来声明函数，函数通过函数名加小括号内�
 
 请注意：（上例中）ServerResponse所返回的日出与日落时间是switch中所匹配的情况（case）。
 
+####Protocols and Extensions 协议和扩展
+
+Swift使用关键字protocol声明一个协议：
+
+类（classes）,枚举（enumerations）和结构（structs）都可采用协议（protocol）：
+```
+ 1 class SimpleClass: ExampleProtocol {
+ 2     var simpleDescription: String = "A very simple class."
+ 3     var anotherProperty: Int = 69105
+ 4     func adjust() {
+ 5         simpleDescription += "  Now 100% adjusted."
+ 6     }
+ 7 }
+ 8 var a = SimpleClass()
+ 9 a.adjust()
+10 let aDescription = a.simpleDescription
+11  
+12 struct SimpleStructure: ExampleProtocol {
+13     var simpleDescription: String = "A simple structure"
+14     mutating func adjust() {
+15         simpleDescription += " (adjusted)"
+16     }
+17 }
+18 var b = SimpleStructure()
+19 b.adjust()
+20 let bDescription = b.simpleDescription
+```
+    练习：
+    照上例添加一个枚举协议
+
+请注意，上例中使用mutating关键词声明了一个方法adjust改动了SimpleStructure结构，而SimpleClass类则没有使用mutating关键字，因为类中的method可以随时改变类。（言外之意，结构中的方法要通过mutating关键字来标记更改结构，这个做法在后续具体翻译methods时会讲解到）
+
+Swift使用extension关键字为已有的类型扩展功能，如增加新的方法或属性，你可以为别处声明的类型添加协议，哪怕是引用过来的库或者框架：
+```
+1 extension Int: ExampleProtocol {
+2     var simpleDescription: String {
+3     return "The number \(self)"
+4     }
+5     mutating func adjust() {
+6         self += 42
+7     }
+8 }
+9 7.simpleDescription
+```
+    练习：
+    使用extension关键字为Double类型添加一个求绝对值的属性
+
+你可以像其它命名过的类型一样使用一个协议，譬如，声明一个拥有不同类型但遵守同一个协议的对象集合。协议的值运行时，外部的方法是不可用的：
+```
+1 let protocolValue: ExampleProtocol = a
+2 protocolValue.simpleDescription
+3 // protocolValue.anotherProperty 
+//这段代码的运行环境依赖上两个例子，我的理解是，假设常量protocolValue遵守ExampleProtocol协议，那么协议中的simpleDescription可以被引用，因为其在协议内部，而anotherProperty则不是协议内的方法，运行会报错，可以试着运行一下，看错误的结果。--by Joe.Huang
+```
+虽然ProtocolValue和SimpleClass类在同一个运行环境里面，但编译器会将其作用域放在ExampleProtocol里。也就是说，我们不能有意无意地使用协议外的方法或属性。
+
+ 
+
+####Generics 泛型
+
+（提到泛型，肯定离不开泛型函数，~~~^_^~~~ 嘿嘿）
+
+通过尖括号<>定义泛型函数或类型（尖括内命名）：
+```
+1 func repeat<ItemType>(item: ItemType, times: Int) -> ItemType[] {
+2     var result = ItemType[]()
+3     for i in 0..times {
+4         result += item
+5     }
+6     return result
+7 }
+8 repeat("knock", 4)
+```
+你可以在函数(func)，方法(method)中使用泛型，同样地，类（classes）,枚举（enumerations）和结构（structs）中也可以：
+```
+1 // 重载Swift标准库中的可选类型
+2 enum OptionalValue<T> {
+3     case None
+4     case Some(T)
+5 }
+6 var possibleInteger: OptionalValue<Int> = .None
+7 possibleInteger = .Some(100)
+```
+有时需要对泛型做一些需求（requirements），比如需要某个泛型类型实现某个接口或继承自某个特定类型、两个泛型类型属于同一个类型等等，Swift 通过where描述这些需求：
+```
+ 1 func anyCommonElements <T, U where T: Sequence, U: Sequence, T.GeneratorType.Element: Equatable, T.GeneratorType.Element == U.GeneratorType.Element> (lhs: T, rhs: U) -> Bool {
+ 2     for lhsItem in lhs {
+ 3         for rhsItem in rhs {
+ 4             if lhsItem == rhsItem {
+ 5                 return true
+ 6             }
+ 7         }
+ 8     }
+ 9     return false
+10 }
+11 anyCommonElements([1, 2, 3], [3])
+```
+    练习：
+    修改anyCommonElements函数，让其返回一个数组，内容是两个序列的共有元素
+
+如果是简单的需要，你可以省略掉where关键字，比如<T where T: Equatable>可以简写为：<T: Equatable>。
+
+
+
 
 
 
